@@ -24,7 +24,6 @@ router.post('/upload', (req, res, next) => {
     req.busboy.on('file', async function (fieldname, file, filename) {
         const filelist = await(fs.readdir(UPLOAD_PATH));
         if (filelist.includes(filename)) {
-            console.log('DUPLICARTE');
             res.send('duplicate');
         }
         else {
@@ -33,8 +32,7 @@ router.post('/upload', (req, res, next) => {
             fstream = fs.createWriteStream(__dirname + '/uploads/' + filename);
             file.pipe(fstream);
             fstream.on('close', function () {    
-                console.log("Upload Finished of " + filename);              
-                res.send('uploaded');           //where to go next
+                res.send(filelist);           //where to go next
             });
         }
 
