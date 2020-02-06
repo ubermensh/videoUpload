@@ -13,7 +13,7 @@ const styles = theme => ({
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(8),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
@@ -32,27 +32,15 @@ class Upload extends Component {
 
   onFileChangeHandler = (e) => {
     e.preventDefault();
-    //this.setState({
-    //selectedFile: 
-    //});
     const file = e.target.files[0];
     const formData = new FormData();
-    //formData.append('file', this.state.selectedFile);
     formData.append('file', file);
     fetch('http://localhost:3030/upload', {
       method: 'post',
       body: formData
     }).then(res => {
-      if(res.ok) {
-        console.log(res.data);
         alert("File uploaded successfully.")
-      }
     });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-    console.log('submit');
   };
 
   render() {
@@ -65,21 +53,22 @@ class Upload extends Component {
             <CloudUpload />
           </Avatar>
           <form method='post' action='upload' encType="multipart/form-data" className={classes.form} onSubmit={this.onSubmit}>
-<input
-        accept="video/*"
-        className={classes.input}
-        id="raised-button-file"
-        type="file"
-      />
-      <label htmlFor="raised-button-file">
-        <Button raised="true" component="span" className={classes.submit}
-              fullWidth
-              variant="contained"
-              color="primary"
-        >
-          Upload video
-        </Button>
-      </label>
+            <input
+              accept="video/*"
+              className={classes.input}
+              id="raised-button-file"
+              type="file"
+              onChange={this.onFileChangeHandler}
+            />
+            <label htmlFor="raised-button-file">
+              <Button raised="true" component="span" className={classes.submit}
+                fullWidth
+                variant="contained"
+                color="primary"
+              >
+                Upload video
+              </Button>
+            </label>
           </form>
         </div>
       </Container>

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import axios from 'axios';
 
 import { CloudUpload, VideoLibrary }from '@material-ui/icons';
 import {
@@ -12,7 +13,19 @@ import Upload from './components/Upload';
 class App extends Component {
   constructor(props) {
     super(props);
-  }
+    this.state = {
+      videos :  []
+    };
+  };
+
+  componentDidMount() {
+  axios
+    .get(`http://localhost:3030/upload`)
+    .then(res => {
+      console.log(res);
+      
+    })
+  };
 
   render() {
     return (
