@@ -3,6 +3,8 @@ var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
 
+const router = express.Router();
+
 const UPLOAD_PATH = path.join(__dirname, 'uploads');
 
 var app = express();
@@ -16,17 +18,16 @@ Express v4  Route definition
 ============================================================ */
 
 
-app.route('/upload')
-    .post(function (req, res, next) {
-        let fstream;
-        req.pipe(req.busboy);
-        req.busboy.on('file', async function (fieldname, file, filename) {
-            const filelist = await(fs.readdir(UPLOAD_PATH));
-            if (filelist.includes(filename)) {
-                console.log('DUPLICARTE');
-                res.send('duplicate');
-            }
-            else {
+router.post('/upload', (req, res, next) => {
+    let fstream;
+    req.pipe(req.busboy);
+    req.busboy.on('file', async function (fieldname, file, filename) {
+        const filelist = await(fs.readdir(UPLOAD_PATH));
+        if (filelist.includes(filename)) {
+            console.log('DUPLICARTE');
+            res.send('duplicate');
+        }
+        else {
             console.log("Uploading: " + filename);
             //Path where image will be uploaded
             fstream = fs.createWriteStream(__dirname + '/uploads/' + filename);
@@ -35,26 +36,30 @@ app.route('/upload')
                 console.log("Upload Finished of " + filename);              
                 res.send('uploaded');           //where to go next
             });
-            }
-
-        });
-    })
-        .get(async function (req, res, next) {
-            const filelist = await(fs.readdir(UPLOAD_PATH));
-            console.log(filelist);
-
-            res.send(filelist);
-            //res.send('afafafsdfasafd');
         }
-    );
 
+    });
+});
 
+router.get('/upload', async (req, res) => {
+    const filelist = await(fs.readdir(UPLOAD_PATH));
+    console.log(filelist);
+    res.send(filelist);
+});
 
 app.use(function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+    if ('OPTIONS' === req.method) {
+        res.send(200);
+    } else {
+        next();
+    }
 });
+
+
+app.use(router);
 
 var server = app.listen(3030, function() {
     console.log('Listening on port %d', server.address().port);

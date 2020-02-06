@@ -9,6 +9,7 @@ import {
 
 import { Container, IconButton, Box, Paper, Typography, Grid , AppBar, Toolbar, Button  } from '@material-ui/core';
 import Upload from './components/Upload';
+//import Videos from './components/Videos';
 
 class App extends Component {
   constructor(props) {
@@ -19,12 +20,11 @@ class App extends Component {
   };
 
   componentDidMount() {
-  axios
-    .get(`http://localhost:3030/upload`)
-    .then(res => {
-      console.log(res);
-      
-    })
+    axios
+      .get(`http://localhost:3030/upload`)
+      .then(res => {
+        this.setState({videos: res.data});
+      })
   };
 
   render() {
@@ -43,16 +43,27 @@ class App extends Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <Box mt={2}>
-          <Paper >
-          </Paper>
-        </Box>
-
         <Router>
           <Route exact path="/Upload" component={Upload} />
         </Router>
+
+        <Box mt={2}>
+          {this.state.videos.map(row => (
+            <Paper>
+<video controls width="250">
+
+    <source src={`http://localhost:3030/${row}`}
+            type="video/webm" />
+
+
+    Sorry, your browser doesn't support embedded videos.
+</video>
+              
+            </Paper>
+          ))}
+        </Box>
       </Container>
     );
   }
 }
-export default App;
+export default  App;
