@@ -5,7 +5,7 @@ var fs = require('fs-extra');       //File System - for file manipulation
 
 var app = express();
 app.use(busboy());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'uploads')));
 
 /* ========================================================== 
 Create a Route (/upload) to handle the Form submission 
@@ -30,6 +30,9 @@ app.route('/upload')
         });
     });
 
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+});
 var server = app.listen(3030, function() {
     console.log('Listening on port %d', server.address().port);
 });
