@@ -4,19 +4,14 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from "@material-ui/core/styles";
-import {
-  BrowserRouter as Router,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container, Typography, Grid } from '@material-ui/core';
 import Upload from './components/Upload';
 import Header from './components/Header';
+import VideoList from './components/VideoList';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const styles =  theme => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
@@ -68,31 +63,7 @@ class App extends Component {
           <Upload setVideos= {this.setVideos} />
         </Route>
         </Router>
-        <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {this.state.videos.map(video=> (
-              <Grid item key={video} xs={12} sm={6} md={4}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    className={classes.cardMedia}
-                  >
-              <video className={classes.videoInsert} controls >
-                <source src={`${BASE_URL}/video/${video}`}
-                  type="video/webm" />
-                Sorry, your browser doesn't support embedded videos.
-              </video>
-                    </CardMedia>
-                  <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {video}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+        <VideoList videos={this.state.videos} />
       </Container>
     );
   }
