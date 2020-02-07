@@ -30,11 +30,10 @@ const styles = theme => ({
   },
 });
 
-class Upload extends Component {
+class UploadElement extends Component {
 
-   handleChange = async  (e) => {
+   handleChange = async (e) => {
     e.preventDefault();
-    console.log(this.props.setVideos);
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
@@ -44,7 +43,7 @@ class Upload extends Component {
     data: formData,
     headers: {'Content-Type': 'multipart/form-data' }
     });
-     console.log('res',res);
+    console.log('res',res);
     this.props.setVideos(res.data);
   };
 
@@ -81,4 +80,4 @@ class Upload extends Component {
   }
 }
 
-export default withRouter(withStyles(styles,  { withTheme: true })(Upload));
+export default withRouter(withStyles(styles,  { withTheme: true })(UploadElement));
