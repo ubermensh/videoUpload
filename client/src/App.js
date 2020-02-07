@@ -4,13 +4,13 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from "@material-ui/core/styles";
-import { CloudUpload, VideoLibrary }from '@material-ui/icons';
 import {
   BrowserRouter as Router,
   Route,
 } from "react-router-dom";
-import { Container, IconButton, Typography, Grid , AppBar, Toolbar } from '@material-ui/core';
+import { Container, Typography, Grid } from '@material-ui/core';
 import Upload from './components/Upload';
+import Header from './components/Header';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const styles =  theme => ({
@@ -62,19 +62,7 @@ class App extends Component {
     const {classes}=this.props;
     return (
       <Container>
-        <AppBar >
-          <Toolbar>
-            <IconButton variant="contained" color = "primary" href="/">
-              <VideoLibrary color="secondary" />
-            </IconButton>
-            <IconButton variant="contained" color = "primary" href="/upload">
-              <CloudUpload color="secondary" />
-            </IconButton>
-            <Typography  component="h2" align="center" variant="h5" >
-              VideoUpload 
-            </Typography>
-          </Toolbar>
-        </AppBar>
+        <Header />
         <Router>
           <Route exact path="/upload" >
           <Upload setVideos= {this.setVideos} />
