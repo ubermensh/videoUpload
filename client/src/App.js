@@ -91,7 +91,7 @@ class App extends Component {
                     className={classes.cardMedia}
                   >
               <video className={classes.videoInsert} controls >
-                <source src={`${BASE_URL}/${card}`}
+                <source src={`${BASE_URL}/video/${card}`}
                   type="video/webm" />
                 Sorry, your browser doesn't support embedded videos.
               </video>

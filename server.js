@@ -4,19 +4,18 @@ var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
 
 const router = express.Router();
-
 const UPLOAD_PATH = path.join(__dirname, 'uploads');
 
 var app = express();
 app.use(busboy());
-app.use(express.static(UPLOAD_PATH));
+app.use('/video', express.static(UPLOAD_PATH));
 
 router.post('/upload', (req, res, next) => {
     let fstream;
     let filelist;
     req.pipe(req.busboy);
     req.busboy.on('file', async function (fieldname, file, filename) {
-        filelist = await(fs.readdir(UPLOAD_PATH));
+        filelist = await fs.readdir(UPLOAD_PATH);
         if (filelist.includes(filename)) {
             console.log('duplicate', filename);
             res.send(filelist);
@@ -26,7 +25,7 @@ router.post('/upload', (req, res, next) => {
             fstream = fs.createWriteStream(__dirname + '/uploads/' + filename);
             file.pipe(fstream);
             fstream.on('close', async function () {    
-                filelist = await (fs.readdir(UPLOAD_PATH));
+                filelist = await fs.readdir(UPLOAD_PATH);
                 res.send(filelist);        
             });
         }
@@ -35,7 +34,7 @@ router.post('/upload', (req, res, next) => {
 });
 
 router.get('/upload', async (req, res) => {
-    const filelist = await(fs.readdir(UPLOAD_PATH));
+    const filelist = await fs.readdir(UPLOAD_PATH);
     console.log(filelist);
     res.send(filelist);
 });
