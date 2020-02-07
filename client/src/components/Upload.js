@@ -32,11 +32,7 @@ const styles = theme => ({
 
 class Upload extends Component {
 
-  constructor(props) {
-    super(props);
-  };
-
-   onFileChangeHandler = async  (e) => {
+   handleChange = async  (e) => {
     e.preventDefault();
     console.log(this.props.setVideos);
     const file = e.target.files[0];
@@ -44,7 +40,7 @@ class Upload extends Component {
     formData.append('file', file);
     const res = await axios({
     method: 'post',
-    url: `${BASE_URL}/upload`,
+    url: `${BASE_URL}/files`,
     data: formData,
     headers: {'Content-Type': 'multipart/form-data' }
     });
@@ -61,13 +57,13 @@ class Upload extends Component {
           <Avatar className={classes.avatar}>
             <CloudUpload />
           </Avatar>
-          <form method='post' action='upload' encType="multipart/form-data" className={classes.form} onSubmit={this.onSubmit}>
+          <form className={classes.form} >
             <input
               accept="video/*"
               className={classes.input}
               id="raised-button-file"
               type="file"
-              onChange={this.onFileChangeHandler}
+              onChange={this.handleChange}
             />
             <label htmlFor="raised-button-file">
               <Button raised="true" component="span" className={classes.submit}

@@ -48,9 +48,8 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log(`${BASE_URL}/upload`);
       axios
-      .get(`${BASE_URL}/upload`)
+      .get(`${BASE_URL}/files`)
       .then(res => {
       this.setState({videos: res.data});
       })
@@ -71,34 +70,34 @@ class App extends Component {
             <IconButton variant="contained" color = "primary" href="/upload">
               <CloudUpload color="secondary" />
             </IconButton>
-            <Typography variant="h2" component="h2" align="center" variant="h5" >
+            <Typography  component="h2" align="center" variant="h5" >
               VideoUpload 
             </Typography>
           </Toolbar>
         </AppBar>
         <Router>
-          <Route exact path="/Upload" >
+          <Route exact path="/upload" >
           <Upload setVideos= {this.setVideos} />
         </Route>
         </Router>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {this.state.videos.map(card => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {this.state.videos.map(video=> (
+              <Grid item key={video} xs={12} sm={6} md={4}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
                   >
               <video className={classes.videoInsert} controls >
-                <source src={`${BASE_URL}/video/${card}`}
+                <source src={`${BASE_URL}/video/${video}`}
                   type="video/webm" />
                 Sorry, your browser doesn't support embedded videos.
               </video>
                     </CardMedia>
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant="h5" component="h2">
-                      {card}
+                      {video}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -111,4 +110,3 @@ class App extends Component {
   }
 }
 export default withStyles(styles,  { withTheme: true })(App);
-//export default  App;

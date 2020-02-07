@@ -10,7 +10,7 @@ var app = express();
 app.use(busboy());
 app.use('/video', express.static(UPLOAD_PATH));
 
-router.post('/upload', (req, res, next) => {
+router.post('/files', (req, res, next) => {
     let fstream;
     let filelist;
     req.pipe(req.busboy);
@@ -33,7 +33,7 @@ router.post('/upload', (req, res, next) => {
     });
 });
 
-router.get('/upload', async (req, res) => {
+router.get('/files', async (req, res) => {
     const filelist = await fs.readdir(UPLOAD_PATH);
     console.log(filelist);
     res.send(filelist);
