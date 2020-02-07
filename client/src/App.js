@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import axios from 'axios';
-//import AppBar from '@material-ui/core/AppBar';
-//import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -11,10 +9,10 @@ import {
   BrowserRouter as Router,
   Route,
 } from "react-router-dom";
-
 import { Container, IconButton, Typography, Grid , AppBar, Toolbar } from '@material-ui/core';
 import Upload from './components/Upload';
-//import Videos from './components/Videos';
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 const styles =  theme => ({
   icon: {
     marginRight: theme.spacing(2),
@@ -29,7 +27,8 @@ const styles =  theme => ({
     flexDirection: 'column',
   },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: '10%', 
+    paddingLeft: '5px',
   },
   cardContent: {
     flexGrow: 1,
@@ -49,8 +48,9 @@ class App extends Component {
   };
 
   componentDidMount() {
+    console.log(`${BASE_URL}/upload`);
       axios
-      .get(`http://localhost:3030/upload`)
+      .get(`${BASE_URL}/upload`)
       .then(res => {
       this.setState({videos: res.data});
       })
@@ -91,7 +91,7 @@ class App extends Component {
                     className={classes.cardMedia}
                   >
               <video className={classes.videoInsert} controls >
-                <source src={`http://localhost:3030/${card}`}
+                <source src={`${BASE_URL}/${card}`}
                   type="video/webm" />
                 Sorry, your browser doesn't support embedded videos.
               </video>

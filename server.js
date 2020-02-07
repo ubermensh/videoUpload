@@ -11,13 +11,6 @@ var app = express();
 app.use(busboy());
 app.use(express.static(UPLOAD_PATH));
 
-/* ========================================================== 
-Create a Route (/upload) to handle the Form submission 
-(handle POST requests to /upload)
-Express v4  Route definition
-============================================================ */
-
-
 router.post('/upload', (req, res, next) => {
     let fstream;
     let filelist;
@@ -30,12 +23,11 @@ router.post('/upload', (req, res, next) => {
         }
         else {
             console.log("Uploading: " + filename);
-            //Path where image will be uploaded
             fstream = fs.createWriteStream(__dirname + '/uploads/' + filename);
             file.pipe(fstream);
             fstream.on('close', async function () {    
                 filelist = await (fs.readdir(UPLOAD_PATH));
-                res.send(filelist);           //where to go next
+                res.send(filelist);        
             });
         }
 
