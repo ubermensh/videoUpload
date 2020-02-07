@@ -32,20 +32,28 @@ const styles = theme => ({
 
 class UploadElement extends Component {
 
-   handleChange = async (e) => {
+  handleChange = async (e) => {
     e.preventDefault();
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    const res = await axios({
-    method: 'post',
-    url: `${BASE_URL}/files`,
-    data: formData,
-    headers: {'Content-Type': 'multipart/form-data' }
-    });
-    console.log('res',res);
-    this.props.setVideos(res.data);
-  };
+    try {
+      const res = await axios({
+        method: 'post',
+        url: `${BASE_URL}/files`,
+        data: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      this.props.setVideos(res.data);
+      console.log('res', res);
+    } catch (error) {
+      if (error.response.status === 409) {
+        alert('duplicate video');
+      }
+    }
+  }
 
   render() {
     const { classes } = this.props;

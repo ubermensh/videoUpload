@@ -29,8 +29,7 @@ class VideoElement extends Component {
       <Grid item xs={12} sm={6} md={4}>
         <Card className={classes.card}>
           <CardMedia
-            className={classes.cardMedia}
-          >
+            className={classes.cardMedia} >
             <video className={classes.videoInsert} controls >
               <source src={`${BASE_URL}/video/${this.props.video}`}
                 type="video/webm" />

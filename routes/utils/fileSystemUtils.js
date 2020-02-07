@@ -8,8 +8,6 @@ async function getFileList(req, res) {
     const filelist = await fs.readdir(UPLOAD_PATH);
     return filelist;
 };
-async function writeFileToDirectory(file){
-};
 
 
 module.exports = { getFileList, UPLOAD_PATH };
