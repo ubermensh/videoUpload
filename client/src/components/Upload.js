@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {  withRouter } from "react-router-dom";
+import axios from 'axios';
 
 import CloudUpload from '@material-ui/icons/CloudUpload';
 import { Avatar, Button, CssBaseline,  Container } from '@material-ui/core';
@@ -30,17 +31,33 @@ const styles = theme => ({
 
 class Upload extends Component {
 
-  onFileChangeHandler = (e) => {
+  constructor(props) {
+    super(props);
+  };
+
+   onFileChangeHandler = async  (e) => {
     e.preventDefault();
+    console.log(this.props.setVideos);
+
     const file = e.target.files[0];
     const formData = new FormData();
     formData.append('file', file);
-    fetch('http://localhost:3030/upload', {
-      method: 'post',
-      body: formData
-    }).then(res => {
-        alert("File uploaded successfully.")
+
+    const res = await axios({
+    method: 'post',
+    url: 'http://localhost:3030/upload',
+    data: formData,
+    headers: {'Content-Type': 'multipart/form-data' }
     });
+     console.log('res',res);
+    this.props.setVideos(res.data);
+    //fetch('http://localhost:3030/upload', {
+      //method: 'post',
+      //body: formData
+    //}).then(res => {
+      //console.log(res.data);
+        //alert(res.data);
+    //});
   };
 
   render() {

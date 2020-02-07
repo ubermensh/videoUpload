@@ -20,18 +20,21 @@ Express v4  Route definition
 
 router.post('/upload', (req, res, next) => {
     let fstream;
+    let filelist;
     req.pipe(req.busboy);
     req.busboy.on('file', async function (fieldname, file, filename) {
-        const filelist = await(fs.readdir(UPLOAD_PATH));
+        filelist = await(fs.readdir(UPLOAD_PATH));
         if (filelist.includes(filename)) {
-            res.send('duplicate');
+            console.log('duplicate', filename);
+            res.send(filelist);
         }
         else {
             console.log("Uploading: " + filename);
             //Path where image will be uploaded
             fstream = fs.createWriteStream(__dirname + '/uploads/' + filename);
             file.pipe(fstream);
-            fstream.on('close', function () {    
+            fstream.on('close', async function () {    
+                filelist = await (fs.readdir(UPLOAD_PATH));
                 res.send(filelist);           //where to go next
             });
         }

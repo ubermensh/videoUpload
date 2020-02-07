@@ -45,6 +45,7 @@ class App extends Component {
     this.state = {
       videos :  []
     };
+    this.setVideos = this.setVideos.bind(this);
   };
 
   componentDidMount() {
@@ -54,6 +55,9 @@ class App extends Component {
       this.setState({videos: res.data});
       })
   };
+  setVideos(videos) {
+    this.setState({videos});
+    }
 
   render() {
     const {classes}=this.props;
@@ -73,7 +77,9 @@ class App extends Component {
           </Toolbar>
         </AppBar>
         <Router>
-          <Route exact path="/Upload" component={Upload} />
+          <Route exact path="/Upload" >
+          <Upload setVideos= {this.setVideos} />
+        </Route>
         </Router>
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
