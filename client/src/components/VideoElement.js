@@ -5,7 +5,6 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { withStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container, Typography, Grid } from '@material-ui/core';
-import VideoElement from './VideoElement';
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const styles =  theme => ({
   cardGrid: {
@@ -28,18 +27,29 @@ const styles =  theme => ({
     width: 250
   }
 });
-class VideoList extends Component {
+class VideoElement extends Component {
   render() {
     const {classes}=this.props;
     return (
-        <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>
-            {this.props.videos.map(video=> (
-              <VideoElement key={video} video={video} />
-            ))}
-          </Grid>
-        </Container>
+      <Grid item xs={12} sm={6} md={4}>
+        <Card className={classes.card}>
+          <CardMedia
+            className={classes.cardMedia}
+          >
+            <video className={classes.videoInsert} controls >
+              <source src={`${BASE_URL}/video/${this.props.video}`}
+                type="video/webm" />
+              Sorry, your browser doesn't support embedded videos.
+            </video>
+          </CardMedia>
+          <CardContent className={classes.cardContent}>
+            <Typography gutterBottom variant="h5" component="h2">
+              {this.props.video}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
     );
   }
 }
-export default withStyles(styles,  { withTheme: true })(VideoList);
+export default withStyles(styles,  { withTheme: true })(VideoElement);
